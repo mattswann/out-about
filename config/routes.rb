@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   root 'pages#index'
 
-  get '/pages_json/' => 'pages#pages_json'
+  get 'pages/search_json' => 'pages#search_json'
 
    get 'users/auth/:provider/callback' => 'omniauth_callbacks#all'
 

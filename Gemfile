@@ -60,3 +60,6 @@ gem "instagram"
 gem 'yelp'
 gem 'json'
 gem 'bootstrap-sass-rails'
+gem 'simple_form'
+gem 'bootstrap-sass'
+gem 'autoprefixer-rails'

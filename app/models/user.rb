@@ -25,11 +25,11 @@ class User < ActiveRecord::Base
       if user.blank?
        user = User.new
        user.password = Devise.friendly_token[0,10]
-       # user.name = auth.info.name FIX THIS
+       user.name = auth.info.name
        user.email = auth.info.email
        auth.provider == "twitter" ?  user.save(:validate => false) :  user.save
      end
-     # authorization.username = auth.info.nickname FIX THIS MAKE IT IN MODEL
+     authorization.username = auth.info.nickname
      authorization.user_id = user.id
      authorization.save
    end
