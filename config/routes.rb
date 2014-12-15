@@ -4,12 +4,15 @@ Rails.application.routes.draw do
   root 'pages#index'
 
   get 'pages/search_json' => 'pages#search_json'
+  get '/venues/:id/venue_json' => 'venues#venue_json'
 
-   get 'users/auth/:provider/callback' => 'omniauth_callbacks#all'
+
+  get 'users/auth/:provider/callback' => 'omniauth_callbacks#all'
 
   # ActiveAdmin.routes(self)
 
 
   resources :users
   resources :pages
+  resources :venues
 end

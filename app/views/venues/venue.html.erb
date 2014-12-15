@@ -1,0 +1,73 @@
+<h1>venue page</h1>
+
+<div id="output">
+
+</div>
+
+<script type="text/template" id="result-template">
+
+  <article>
+    <h2> {{ name }} </h2>
+    <p class="venue-info">Phone Number: {{ phone }} </p>
+    <p class="venue-info"> Address: {{ address }} </p>
+    <p class="venue-info"> City: {{ city }} </p>
+  </article>
+
+</script>
+
+<script>
+
+   _.templateSettings = {
+  interpolate: /\{\{(.+?)\}\}/g
+  };
+
+var displayData = function(Id, name, phone, address, city, postcode, statecode) {
+// console.log(displayData);
+    var $templateFunc = _.template($('#result-template').html());
+    var htmlOutput = $templateFunc( {
+      name: name,
+      phone: phone,
+      address: address,
+      city: city,
+      postcode: postcode,
+      statecode: statecode,
+      Id: Id } );
+
+    $('#output').append(htmlOutput);
+
+  }
+
+
+  function getParam(name){
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec (window.location.href);
+    if (results == null)
+        return "";
+        else
+        return results[1];
+}
+
+var unqId = getParam("v=");
+
+
+    var venueDisplay = {
+     url: '/venues/' + unqId + '/venue_json',
+     dataType: 'json',
+    };
+
+      $.ajax(venueDisplay).done(function(data) {
+          var Id = data.id;
+          var name = data.name;
+          var phone = data.phone;
+          var address = data.location.address[0];
+          var city = data.location.city;
+          var postcode = data.location.postal_code;
+          var statecode = data.location.statecode;
+
+          displayData(Id, name, phone, address, city, postcode, statecode)
+        });
+      });
+
+</script>

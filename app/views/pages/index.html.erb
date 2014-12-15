@@ -1,33 +1,25 @@
 <h1>INDEX</h1>
 
-<%= form_tag pages_path, :method => 'get' do %>
+<%= form_tag pages_path, :id => 'search', :method => 'get' do %>
   <%= text_field_tag :search_box, nil, :placeholder => "Enter a search", :required => true%>
-  <button id="search">Search</button>
+  <button id="search-button">Search</button>
 <% end %>
 
 
+<div id="output">
 
-
-
-
-
-
-
+</div>
 
 <script type="text/template" id="result-template">
 
   <article>
-    <h2><a href='#'> {{ name }} </a></h2>
-    <p class="hiddensongs">Phone Number: {{ phone }} </p>
-    <p class="hiddensongs">Tour: {{ tour }} </p>
-    <p hidden class="eventId"> Address: {{ address }} </p>
-    <p hidden class="hidden_songs"> City: {{ city }} </p>
+    <h2><a href='/venues/{{ Id }}'> {{ name }} </a></h2>
+    <p class="venue-info">Phone Number: {{ phone }} </p>
+    <p class="venue-info"> Address: {{ address }} </p>
+    <p class="venue-info"> City: {{ city }} </p>
   </article>
 
 </script>
-
-
-
 
 
 
@@ -38,48 +30,50 @@
   };
 
 var displayData = function(Id, name, phone, address, city, postcode, statecode) {
-console.log('displayData');
+// console.log(displayData);
     var $templateFunc = _.template($('#result-template').html());
     var htmlOutput = $templateFunc( {
-      Venue: name,
+      name: name,
       phone: phone,
       address: address,
       city: city,
       postcode: postcode,
-      state: state } );
+      statecode: statecode,
+      Id: Id } );
 
-      // debugger;
-
-    // console.log(htmlOutput);
     $('#output').append(htmlOutput);
 
   }
 
-   var $button = $('#search');
+   var $form = $('#search');
 
-    $button.on('click', function() {
+    $form.on('submit', function(e) {
+      e.preventDefault();
 
       $('#output').empty();
 
       var $inputVal = $('#search_box').val();
-console.log($inputVal);
+
       var search = {
         url: '/pages/search_json',
-        dataType: 'json'
+        dataType: 'json',
+        data: {search_box: $('#search_box').val()}
       };
 
       $.ajax(search).done(function(data) {
-          var Id = data.businesses[0].id;
-          var name = data.businesses[0].name;
-          var phone = data.businesses[0].phone;
-          var address = data.businesses[0].location.address[0];
-          var city = data.businesses[0].location.city;
-          var postcode = data.businesses[0].location.postal_code;
-          var statecode = data.businesses[0].location.statecode;
+        var business = data.businesses;
+        _.each(business, function(buz, index){
+          var Id = buz.id;
+          var name = buz.name;
+          var phone = buz.phone;
+          var address = buz.location.address[0];
+          var city = buz.location.city;
+          var postcode = buz.location.postal_code;
+          var statecode = buz.location.statecode;
 
-// debugger;
           displayData(Id, name, phone, address, city, postcode, statecode)
-          // console.log(displayData);
+
+          });
         });
       });
 

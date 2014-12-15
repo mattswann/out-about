@@ -7,23 +7,15 @@ class PagesController < ApplicationController
 
 
   def search_json
-    @search = params[:search_box]
 
-    params = {
-      term: 'pizza'
+    info = {
+      term: params[:search_box],
+      limit: 6
     }
-# raise inspect.params
-
-    results = Yelp.client.search('Melbourne', params)
+    results = Yelp.client.search('Melbourne', info)
     render :json => results
 
   end
-
-
-
-
-
-
 
 
 
