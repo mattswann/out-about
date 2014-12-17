@@ -1,15 +1,56 @@
-<h2>Sign in</h2>
+<img src="http://i.imgur.com/mNn4xFQ.png" width="400" alt="">
 
-<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-horizontal' }) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email, :required => false, :autofocus => true %>
-    <%= f.input :password, :required => false %>
-    <%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <a class="btn big-login" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();" > Log in </a> </div>
+      <div class="col-sm-4"></div>
+    </div>
+    <div class="modal fade login" id="loginModal">
+      <div class="modal-dialog login animated">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Login with</h4>
+          </div>
+          <div class="modal-body">
+            <div class="box">
+              <div class="content">
+                <div class="social">
+                  <a id="facebook_login" class="circle facebook" href="/users/auth/facebook">
+                    <i class="fa fa-facebook fa-fw"></i>
+                  </a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign in" %>
-  </div>
-<% end %>
 
-<%= render "users/shared/links" %>
+
+<script>
+
+function showLoginForm(){
+  $('#loginModal .registerBox').fadeOut('fast',function(){
+      $('.loginBox').fadeIn('fast');
+      $('.register-footer').fadeOut('fast',function(){
+          $('.login-footer').fadeIn('fast');
+      });
+
+      $('.modal-title').html('Login with');
+  });
+}
+
+function openLoginModal(){
+
+    showLoginForm();
+    setTimeout(function(){
+         $('#loginModal').modal('show');
+    }, 230);
+
+}
+
+</script>

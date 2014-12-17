@@ -1,2 +1,25 @@
 
 
+  <div id="acordeon">
+    <div class="panel-group" id="accordion">
+    <% @yelp_results.each_with_index do |y, index| %>
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-target="#collapse{{ cssid }}" href="#collapse{{ cssid }}" data-toggle="gsdk-collapse"><%= y.name %>
+            </a>
+          </h4>
+        </div>
+
+        <div id="collapse{{ cssid }}" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p><%= y.phone %></p>
+            <p><%= y.location.display_address%> </p>
+            <p><a href='/venues/<%= y.id %>'> Do you have something good to say about {{ name }}? </a></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    </div>
+  </div>

@@ -27,8 +27,8 @@ class User < ActiveRecord::Base
        user.password = Devise.friendly_token[0,10]
        user.name = auth.info.name
        user.email = auth.info.email
-       user.image = auth.info.
-       auth.provider == "twitter" ?  user.save(:validate => false) :  user.save
+       user.image = auth.info.image
+       auth.provider == "facebook" ?  user.save(:validate => false) :  user.save
      end
      authorization.username = auth.info.nickname
      authorization.user_id = user.id
@@ -36,4 +36,11 @@ class User < ActiveRecord::Base
    end
    authorization.user
  end
+
+  def self.koala(auth)
+    facebook = Koala::Facebook::API.new(session["token"])
+    # facebook.get_object("me?fields=name,picture")
+  end
+
+
 end

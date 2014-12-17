@@ -1,0 +1,109 @@
+<h3>FIND A RESTAURANT OR BAR</h3>
+
+<div class="form-group">
+  <%= form_tag pages_path, :id => 'search', :method => 'get' do %>
+    <%= text_field_tag :search_box, nil, :class => "form-control", :placeholder => "Enter a search", :required => true%>
+    <button class="btn btn-default btn-fill">Search</button>
+  <% end %>
+</div>
+
+
+
+<div id="output"></div>
+
+<script type="text/template" id="result-template">
+
+  <div id="acordeon">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-target="#collapse{{ cssid }}" href="#collapse{{ cssid }}" data-toggle="gsdk-collapse"> {{ name }} </a>
+          </h4>
+        </div>
+
+        <div id="collapse{{ cssid }}" class="panel-collapse collapse">
+          <div class="panel-body">
+            <p>Phone Number: {{ phone }}</p>
+            <p>Address: {{ address }}</p>
+            <p>City: {{ city }}</p>
+            <p><a href='/venues/{{ Id }}'> Do you have something good to say about {{ name }}? </a></p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</script>
+
+
+
+<script>
+
+$('.collapse').collapse()
+
+var nums = ["One", "Two", "Three", "Four", "Five", "Six"]
+
+   _.templateSettings = {
+  interpolate: /\{\{(.+?)\}\}/g
+  };
+
+
+var displayData = function(Id, name, phone, address, city, postcode, statecode, index) {
+// console.log(displayData);
+    var $templateFunc = _.template($('#result-template').html());
+    var htmlOutput = $templateFunc( {
+      name: name,
+      phone: phone,
+      address: address,
+      city: city,
+      postcode: postcode,
+      statecode: statecode,
+      Id: Id,
+      cssid: nums[index] } );
+
+    $('#output').append(htmlOutput);
+
+  }
+
+   var $form = $('#search');
+
+    $form.on('submit', function(e) {
+      e.preventDefault();
+
+      $('#output').empty();
+
+      var $inputVal = $('#search_box').val();
+
+      var search = {
+        url: '/pages/search_json',
+        dataType: 'json',
+        data: {search_box: $('#search_box').val()}
+      };
+
+      $.ajax(search).done(function(data) {
+        var business = data.businesses;
+        _.each(business, function(buz, index){
+          var Id = buz.id;
+          var name = buz.name;
+          var phone = buz.phone;
+          var address = buz.location.address[0];
+          var city = buz.location.city;
+          var postcode = buz.location.postal_code;
+          var statecode = buz.location.statecode;
+
+          displayData(Id, name, phone, address, city, postcode, statecode, index)
+
+          });
+        });
+      });
+
+
+
+</script>
+
+
+
+
