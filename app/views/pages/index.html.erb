@@ -1,44 +1,48 @@
-<img src="http://i.imgur.com/mNn4xFQ.png" width="400" alt="">
+<img id="logo-all" src="http://i.imgur.com/Rr2vGhx.png" width="400" >
 
-<h3>FIND A RESTAURANT OR BAR</h3>
+
+<h3 style="text-align: center; color: #fff601;">FIND A RESTAURANT OR BAR</h3>
 
 <div class="form-group">
   <%= form_tag pages_path, :id => 'search', :method => 'get' do %>
     <%= text_field_tag :search_box, nil, :class => "form-control", :placeholder => "Enter a search", :required => true%>
-    <button class="btn btn-default btn-fill">Search</button>
+    <button class="btn btn-default btn-fill pull-right">Search</button>
   <% end %>
 </div>
 
 <% if @yelp_results %>
- <div id="acordeon">
-    <div class="panel-group" id="accordion">
-    <% @yelp_results.each_with_index do |y, index| %>
-        <div class="panel panel-default">
-
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a data-target="#collapse<%= index+1 %>" href="#collapse<%= index+1 %>" data-toggle="gsdk-collapse"> <%= y.name %> </a>
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <% @yelp_results.each_with_index do |y, index| %>
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading<%= index+1 %>">
+      <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index+1 %>" aria-expanded="true" aria-controls="collapse<%= index+1 %>"><%= y.name %> </a>
           </h4>
         </div>
 
-        <div id="collapse<%= index+1 %>" class="panel-collapse collapse">
-          <div class="panel-body">
+        <div id="collapse<%= index+1 %>" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
             <p>   <% begin %>
-                  <%= y.phone %>
+                  <a href="tel:<%= y.phone %>"><%= y.phone %></a>
                   <% rescue %>
                   <% end %>
             </p>
-            <p><%= y.location.display_address %>
+             <p><%= y.location.display_address.join(', ') %>
+            <p id="find-address"><a href="http://maps.google.com/?q=<%= y.location.display_address.join('+') %>" target="_blank">FIND ADDRESS</a></p>
 
             </p>
-            <p><a href='/venues/<%= y.id %>'> Do you have something good to say about ? </a></p>
+            <p><a href='/venues/<%= y.id %>'> See what others are saying about <%= y.name %>? </a></p>
           </div>
         </div>
       </div>
     <% end %>
     </div>
-  </div>
+
   <% end %>
+
+  <script>
+$('.collapse').collapse()
+  </script>
 
 
 

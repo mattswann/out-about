@@ -37,6 +37,12 @@ group :development do
 end
 
 
+group :development, :test do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'simplecov', :require => false # for code coverage
+end
+
 # Use ActiveModel has_secure_password
 
 gem 'bcrypt', '~> 3.1.7'
@@ -63,3 +69,5 @@ gem 'bootstrap-sass-rails'
 gem 'simple_form'
 gem 'bootstrap-sass'
 gem 'autoprefixer-rails'
+gem 'less-rails'
+gem 'therubyracer'

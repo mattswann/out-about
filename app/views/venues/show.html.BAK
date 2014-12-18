@@ -1,0 +1,56 @@
+
+<img id="logo-all" src="http://i.imgur.com/Rr2vGhx.png" width="400" >
+
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> <%= @results.name %> </a>
+          </h4>
+        </div>
+         <div id="collapseOne" class="panel-collapse collapse out" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+            <p>   <% begin %>
+                  <a href="tel:<%= @results.phone %>"><%= @results.phone %></a>
+                  <% rescue %>
+                  <% end %>
+            </p>
+            <p><%= @results.location.display_address.join(', ') %>
+            <p id="find-address"><a href="http://maps.google.com/?q=<%= @results.location.display_address.join('+') %>" target="_blank">FIND ADDRESS</a></p>
+         </div>
+        </div>
+      </div>
+    </div>
+
+
+  <br />
+<%= link_to pages_path do %>
+<p class="btn btn-default btn-fill pull-right">Search Again</p>
+<% end %>
+</div>
+<br />
+
+
+  <ul id="comments_list">
+    <% @comments.each do |com| %>
+    <p><%= com.comment %></p>
+    <% end %>
+  </ul>
+
+
+
+<p>Do you have something good to say about this business?</p>
+
+  <%= form_for @comment do |f| %>
+  <%= hidden_field_tag :yelp_id, @results.id  %>
+  <%= f.text_area :comment, :placeholder => "Leave a comment here" %>
+  <p><%= f.submit :class => "btn btn-default btn-fill pull-right" %></p>
+  <% end %>
+
+  <script>
+$('.collapse').collapse()
+  </script>
+
+
+
