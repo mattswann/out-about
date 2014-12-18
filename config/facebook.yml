@@ -1,0 +1,9 @@
+
+development:
+  app_id: <%= ENV['FACEBOOK_APP'] %>
+  secret:  <%= ENV['FACEBOOK_SECRET'] %>
+
+production:
+  app_id: <%= ENV['FACEBOOK_APP'] %>
+  secret:  <%= ENV['FACEBOOK_SECRET'] %>
+
