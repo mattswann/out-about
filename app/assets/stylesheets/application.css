@@ -60,6 +60,15 @@
   font-size: smaller;
 }
 
+.modal-dialog{
+
+  z-index: 1090;
+}
+
+.centered {
+    text-align:center;
+}
+
 /* carousel */
 #quote-carousel
 {
@@ -162,3 +171,5 @@
         height: 20px;
     }
 }
+
+
