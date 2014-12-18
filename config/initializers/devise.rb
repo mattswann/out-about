@@ -234,7 +234,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   config.sign_out_via = :get
-  config.omniauth :facebook, '745698588799515', 'd9aa3771287200f219ec01e2a5e29a0a',
+  config.omniauth :facebook, ENV["FACEBOOK_APP"], ENV["FACEBOOK_SECRET"],
     :scope => 'email, user_birthday, read_stream, user_likes, user_friends', :display => 'popup'
 
 
